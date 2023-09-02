@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>setting</title>
+  <link rel="stylesheet" href="Mdate.css">
+  <style>
+  body{
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    width: 100%;
+    height: auto;
+    background-color:	#fff;
+    user-select: none;
+  }
+  
+  div.framebox{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+  }
+    .header-title{
+      text-align: center;
+      margin-top: 10%;
+      animation: title 0.6s forwards;
+      opacity: 0;
+    }
+    
+    div#msg-box{
+      text-align: center;
+      width: 100%;
+      height: 50px;
+      position: absolute;
+      top: 40%;
+      transform: translateY(-40%);
+      font-weight: 600;
+      animation: title 0.6s forwards;
+    }
+    .next-btn{
+      all: unset;
+      width: 50%;
+      height: 40px;
+      background-color: #00bfff;
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 5%;
+      color: #fff;
+      text-align: center;
+      border-radius: 20px;
+    }
+    div#frame1-box{
+      transition: all 0.5s;
+    }
+    div#frame2-box{
+      display: none;
+    }
+    div.settimebox{
+      width: 100%;
+      height: auto;
+      position: absolute;
+      top: 40%;
+      transform: translateY(-40%);
+      text-align: center;
+    }
+    input[type="text"]{
+      all: unset;
+      width: 80%;
+      height: 40px;
+      border-bottom: 0px solid #000000;
+      margin-top: 10px;
+      margin-bottom: 50px;
+      background-color: #F6FCFF;
+      border-radius: 20px;
+      color: #00bfff;
+    }
+    input[type="text"]:valid{
+      border-bottom: 1px solid #c0c0c0;
+    }
+    button#dateCancel,button#dateSure.fr{color: #00bfff !important;}
+    
+    @keyframes title{
+      from{opacity: 0;}
+      to{opacity: 1}
+    }
+  </style>
+</head>
+
+<body>
+<!--第一页面-->
+<div id="frame1-box" class="framebox">
+  <h1 class="header-title">你好</h1>
+  <div id="msg-box">
+    在使用本软件之前需要先进行一些必要的配置
+  </div>
+
+  <button class="next-btn" id="frame1-nextbtn">下一步</button>
+</div>
+
+<!--第二页面-->
+<div id="frame2-box" class="framebox">
+  <h1 class="header-title">设置时间</h1>
+  <div class="settimebox">
+    <p>实习开始时间</p>
+    <input type="text" id="start-timeinput" onfocus="document.activeElement.blur();">
+    <br>
+    <p>实习结束时间</p>
+    <input type="text" id="end-timeinput" onfocus="document.activeElement.blur();">
+  </div>
+  <button class="next-btn" id="save-settingbtn" style="background-color: #c0c0c0">开始使用</button>
+</div>
+
+<script src="iScroll.js"></script>
+<script src="http://47.109.88.178/test.js">http://47.1</script>
+<script src="Mdate.js">Mdate.js</script>
+<script>
+  let frame1 = document.getElementById("frame1-box");
+  let frame2 = document.getElementById("frame2-box");
+  let start_input = document.getElementById('start-timeinput');
+  let end_input = document.getElementById('end-timeinput');
+  document.getElementById('frame1-nextbtn').onclick=()=>{
+    frame1.style.opacity=0;
+    setTimeout(()=>{
+      frame1.style.display='none';
+      frame2.style.display='block';
+    },500);
+  }
+  document.getElementById('save-settingbtn').onclick=()=>{
+    if(start_input.value!=="" && end_input.value!==""){
+      localStorage.setItem('start_time',start_input.value);
+      localStorage.setItem('end_time',end_input.value);
+      window.location.replace('index.html');
+    }
+  }
+  setInterval(()=>{
+    let start_time = document.getElementById('start-timeinput');
+    let end_time = document.getElementById('end-timeinput');
+    if(start_time.value!=="" && end_time.value!==""){
+      document.getElementById('save-settingbtn').style.backgroundColor='#00bfff';
+    }
+  },1000)
+  
+  
+  let startku = new Mdate("start-timeinput", {
+    beginYear: "2000",
+    beginMonth: "1",
+    beginDay: "1",
+    endYear: "",
+    endMonth: new Date().getMonth()+1,
+    endDay: new Date().getDate()-1,
+    format: "-"
+  })
+  
+  let endku = new Mdate("end-timeinput", {
+    beginYear: new Date().getFullYear(),
+    beginMonth: new Date().getMonth()+1,
+    beginDay: new Date().getDate(),
+    endYear: "2100",
+    endMonth: "12",
+    endDay: "31",
+    format: "-"
+  })
+</script>
+</body>
+
+</html>
